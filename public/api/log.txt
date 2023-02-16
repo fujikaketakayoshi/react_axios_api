@@ -1,9 +1,0 @@
-array (
-)array (
-)array (
-)array (
-)array (
-)array (
-  'title' => 'Hello, World',
-  'body' => 'This is a new post.',
-)
