@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const postsURL = "http://localhost/live_coding_react/react/axios_api/public/api/posts.php?id=1";
+const postURL = "http://localhost/live_coding_react/react/axios_api/public/api/post.php";
+
+export default function App() {
+    const [post, setPost] = React.useState(null);
+    
+    React.useEffect(() => {
+        axios.get(postsURL).then((response) => {
+            setPost(response.data);
+        });
+    }, []);
+    
+    function createPost() {
+        const data = {
+                    title: "Hello, World",
+                    body: "This is a new post."
+                };
+        axios
+            .post(postURL,
+                data,
+                {headers: { "Content-type": "application/x-www-form-urlencoded" }}
+            )
+            .then((response) => {
+                setPost(response.data);
+            });
+    }
+    
+    if (!post) return "No post!";
+    
+    return (
+        <div>
+            <h1>{post.title}</h1>
+            <p>{post.body}</p>
+            <button onClick={createPost}>Create Post</button>
+        </div>
+    );
 }
-
-export default App;
